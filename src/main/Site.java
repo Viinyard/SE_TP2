@@ -1,3 +1,4 @@
+package main;
 /**
  * 
  */
@@ -16,8 +17,6 @@ public class Site {
 	private int uBound, lBound;
 	private final int num;
 	
-	private boolean inTraitement = false;
-	
 	public Site(int num, int stockMax, int stockInit, int uBound, int lBound) {
 		if(stockInit > stockMax && stockInit < 0) throw new IllegalArgumentException("stock init > stock max");
 		this.stockMax = stockMax;
@@ -25,14 +24,6 @@ public class Site {
 		this.num = num;
 		this.uBound = uBound;
 		this.lBound = lBound;
-	}
-	
-	public boolean isInTraitement() {
-		return this.inTraitement;
-	}
-	
-	public void setInTraitement(boolean inTraitement) {
-		this.inTraitement = inTraitement;
 	}
 	
 	public int getNum() {
@@ -60,7 +51,7 @@ public class Site {
 	}
 	
 	public void emprunt() {
-		while(this.stock <= 0 || this.inTraitement) {
+		while(this.stock <= 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -82,7 +73,7 @@ public class Site {
 	}
 
 	public void restitution() {
-		while(this.stockMax - this.stock <= 0 || this.inTraitement) {
+		while(this.stockMax - this.stock <= 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
