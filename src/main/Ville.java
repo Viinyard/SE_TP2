@@ -29,6 +29,12 @@ public class Ville {
 					8 /* UBound */,
 					2 /* LBound */);
 		}
+		
+		for(int i = 0; i < 100; i++) {
+			new Client(this).start();
+		}
+
+		new Camion(this).start();;
 	}
 	
 	public int getNbSites() {

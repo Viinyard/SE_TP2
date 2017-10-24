@@ -26,6 +26,20 @@ public class Site {
 		this.lBound = lBound;
 	}
 	
+	@Override
+	public String toString() {
+		return "Site [stockMax=" + stockMax + ", stockInit=" + stockInit + ", stock=" + stock + ", uBound=" + uBound
+				+ ", lBound=" + lBound + ", num=" + num + "]";
+	}
+
+	public synchronized void accept(Strategy s) {
+		System.out.println(s+" entre ["+this.num+"]");
+		System.out.println(this);
+		s.traitement(this);
+		System.out.println(this);
+		System.out.println(s+" sort ["+this.num+"]");
+	}
+	
 	public int getNum() {
 		return this.num;
 	}
@@ -50,7 +64,7 @@ public class Site {
 		return this.uBound;
 	}
 	
-	public void emprunt() {
+	public synchronized void emprunt() {
 		while(this.stock <= 0) {
 			try {
 				wait();
@@ -61,29 +75,7 @@ public class Site {
 		this.stock--;
 	}
 	
-	public void prendre() {
-		while(this.stock <= 0) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		this.stock--;
-	}
-
-	public void restitution() {
-		while(this.stockMax - this.stock <= 0) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		this.stock++;
-	}
-	
-	public void deposer() {
+	public synchronized void restitution() {
 		while(this.stockMax - this.stock <= 0) {
 			try {
 				wait();

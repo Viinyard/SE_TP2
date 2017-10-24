@@ -6,6 +6,7 @@ package main.state;
 import java.util.Random;
 
 import main.Client;
+import main.Site;
 
 /**
  * @author Antoine Leval
@@ -15,7 +16,7 @@ public enum StateStrategy implements ClientState {
 	EMPRUNT() {
 
 		@Override
-		public void doSomething(Client c) {
+		public void doSomething(Client c, Site s) {
 			c.getVille().getSite(c.getPosition()).emprunt();
 			c.setState(DEPLACEMENT);
 		}
@@ -24,16 +25,16 @@ public enum StateStrategy implements ClientState {
 	RESTITUTION() {
 
 		@Override
-		public void doSomething(Client c) {
-			c.getVille().getSite(c.getPosition()).emprunt();
-			c.setState(EMPRUNT);
+		public void doSomething(Client c, Site s) {
+			c.getVille().getSite(c.getPosition()).restitution();
+			//c.setState(EMPRUNT);
 		}
 		
 	},
 	DEPLACEMENT() {
 
 		@Override
-		public void doSomething(Client c) {
+		public void doSomething(Client c, Site s) {
 			int pos = c.getPosition();
 			c.setPosition(new Random().nextInt(c.getVille().getNbSites()));
 			
@@ -49,7 +50,7 @@ public enum StateStrategy implements ClientState {
 	TRANSITION() {
 
 		@Override
-		public void doSomething(Client c) {
+		public void doSomething(Client c, Site s) {
 			try {
 				Thread.sleep(new Random().nextInt(1000));
 			} catch (InterruptedException e) {
